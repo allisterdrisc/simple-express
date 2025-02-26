@@ -1,5 +1,8 @@
 import 'dotenv/config';
+const express = require('express');
+const app = express();
+const port = 3000;
 
-console.log('hello world');
+app.use(express.static('public'));
 
-console.log(process.env.MY_SECRET);
+app.listen(port, () => console.log('Running my app', process.env.MY_SECRET));
