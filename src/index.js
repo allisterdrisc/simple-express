@@ -6,8 +6,16 @@ const port = 3000;
 
 app.use(express.static('public'));
 
+// const client = new Client({
+//   connectionString: process.env.POSTGRES_URI,
+// });
+
 const client = new Client({
-  connectionString: process.env.POSTGRES_URI, // loads from .env
+  host: 'localhost', // or your droplet's IP
+  user: 'your_postgres_user',
+  password: 'your_postgres_password',
+  database: 'your_postgres_database',
+  port: 5432 
 });
 
 client.connect()
