@@ -43,9 +43,9 @@ app.use(express.static('public'));
 // Setup PostgreSQL client
 const client = new Client({
   host: 'localhost', // or your droplet's IP
-  user: 'your_postgres_user',
-  password: 'your_postgres_password',
-  database: 'your_postgres_database',
+  user: 'allister',
+  password: 'Penny',
+  database: 'allister_db',
   port: 5432
 });
 
