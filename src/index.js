@@ -48,6 +48,8 @@
 // ATTEMPT 2
 
 require('dotenv').config(); // loads variables from .env
+console.log('MONGO_URI:', process.env.MONGO_URI);
+
 const { Client } = require('pg');
 const express = require('express');
 const mongoose = require('mongoose');
