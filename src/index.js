@@ -6,22 +6,36 @@
 
 // app.use(express.static('public'));
 
-// // const client = new Client({
-// //   connectionString: process.env.POSTGRES_URI,
-// // });
-
+// // Setup PostgreSQL client
 // const client = new Client({
 //   host: 'localhost', // or your droplet's IP
-//   user: 'your_postgres_user',
-//   password: 'your_postgres_password',
-//   database: 'your_postgres_database',
-//   port: 5432 
+//   user: 'allister',
+//   password: 'Penny',
+//   database: 'allister',
+//   port: 5432
 // });
 
-// client.connect()
-//   .then(() => console.log('Connected to PostgreSQL'))
-//   .catch(err => console.error('Connection error', err.stack));
+// const mongoose = require('mongoose');
 
+
+// mongoose.connect('mongodb://localhost/your_mongodb_database', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
+
+// // Connect to PostgreSQL
+// client.connect()
+//   .then(() => {
+//     console.log('Connected to PostgreSQL'); // This should appear in pm2 logs if successful
+//     // Start the server after successful PostgreSQL connection
+//     app.listen(port, () => console.log('Running my app'));
+//   })
+//   .catch(err => {
+//     console.error('Connection error', err.stack); // Log PostgreSQL connection error
+//     process.exit(1); // Exit the process with an error code
+//   });
+
+// // Define routes
 // app.get('/app', (req, res) => {
 //   res.send('This is a dynamic route!');
 // });
@@ -30,11 +44,10 @@
 //   res.send('Test route is working!');
 // });
 
-// app.listen(port, () => console.log('Running my app'));
-
 require('dotenv').config(); // loads variables from .env
 const { Client } = require('pg');
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
 
@@ -49,15 +62,28 @@ const client = new Client({
   port: 5432
 });
 
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => {
+    console.log('Connected to MongoDB'); // Log MongoDB connection success
+  })
+  .catch(err => {
+    console.error('MongoDB connection error', err.stack); // Log MongoDB connection error
+    process.exit(1); // Exit the process with an error code
+  });
+
 // Connect to PostgreSQL
 client.connect()
   .then(() => {
     console.log('Connected to PostgreSQL'); // This should appear in pm2 logs if successful
     // Start the server after successful PostgreSQL connection
-    app.listen(port, () => console.log('Running my app'));
+    app.listen(port, () => console.log(`App running on port ${port}`));
   })
   .catch(err => {
-    console.error('Connection error', err.stack); // Log PostgreSQL connection error
+    console.error('PostgreSQL connection error', err.stack); // Log PostgreSQL connection error
     process.exit(1); // Exit the process with an error code
   });
 
