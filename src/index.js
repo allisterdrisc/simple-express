@@ -45,7 +45,7 @@ const client = new Client({
   host: 'localhost', // or your droplet's IP
   user: 'allister',
   password: 'Penny',
-  database: 'allister_db',
+  database: 'allister',
   port: 5432
 });
 
