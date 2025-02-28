@@ -39,6 +39,8 @@ const { Client } = require('pg');
 const app = express();
 const port = 3000;
 
+app.use(express.static('public'));
+
 // Debugging: Log environment variables
 console.log("Mongo URI:", process.env.MONGO_URI);
 console.log("Postgres URI:", process.env.POSTGRES_URI);
@@ -71,6 +73,10 @@ async function connectMongo() {
 }
 
 connectMongo();
+
+app.get('/app', (req, res) => {
+  res.send('This is testing for dynamic routes');
+});
 
 // PostgreSQL Route: Get all users
 app.get('/users', async (req, res) => {
