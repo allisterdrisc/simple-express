@@ -39,6 +39,19 @@ const app = express();
 const port = 3000;
 
 // PostgreSQL connection
+require('dotenv').config(); // Load environment variables
+const express = require('express');
+const { MongoClient } = require('mongodb');
+const { Client } = require('pg');
+
+const app = express();
+const port = 3000;
+
+// Debugging: Log environment variables
+console.log("Mongo URI:", process.env.MONGO_URI);
+console.log("Postgres URI:", process.env.POSTGRES_URI);
+
+// PostgreSQL connection
 const pgClient = new Client({ connectionString: process.env.POSTGRES_URI });
 
 pgClient.connect()
@@ -46,7 +59,15 @@ pgClient.connect()
   .catch(err => console.error('PostgreSQL error:', err));
 
 // MongoDB connection
-const mongoClient = new MongoClient(process.env.MONGO_URI);
+if (!process.env.MONGO_URI) {
+  console.error("❌ MONGO_URI is missing!");
+  process.exit(1); // Exit if no MongoDB URI
+}
+
+const mongoClient = new MongoClient(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 async function connectMongo() {
   try {
