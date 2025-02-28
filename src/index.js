@@ -4,7 +4,7 @@ const port = 3000;
 
 app.use(express.static('public'));
 
-app.get('/app', (res) => {
+app.get('/app', (req, res) => {
   res.send('This is a dynamic route!');
 });
 
