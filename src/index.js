@@ -30,14 +30,6 @@
 
 
 // NEW VERSION INCLUDING BOTH DATABASE CONNECTIONS
-require('dotenv').config(); // Load environment variables
-const express = require('express');
-const { MongoClient } = require('mongodb');
-const { Client } = require('pg');
-
-const app = express();
-const port = 3000;
-
 // PostgreSQL connection
 require('dotenv').config(); // Load environment variables
 const express = require('express');
