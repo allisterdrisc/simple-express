@@ -1,10 +1,11 @@
 require('dotenv').config(); // Load environment variables
 
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const { Client } = require('pg');
 const path = require('path');
 const { engine } = require('express-handlebars');
+
 
 const app = express();
 const port = 3000;
@@ -166,7 +167,7 @@ app.get('/logs/:id/edit', async (req, res) => {
 
   try {
     const db = mongoClient.db('my_mongo_db'); // Use your actual DB name
-    const log = await db.collection('logs').findOne({ _id: new mongoClient.ObjectId(id) });
+    const log = await db.collection('logs').findOne({ _id: new ObjectId(id) });
     if (!log) {
       return res.status(404).send('Log not found');
     }
@@ -188,7 +189,7 @@ app.put('/logs/:id', async (req, res) => {
   try {
     const db = mongoClient.db('my_mongo_db');
     await db.collection('logs').updateOne(
-      { _id: new mongoClient.ObjectId(id) },
+      { _id: new ObjectId(id) },
       { $set: { log: logMessage, timestamp: new Date() } }
     );
     res.redirect('/logs'); // Redirect back to the logs list
@@ -203,7 +204,7 @@ app.delete('/logs/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const db = mongoClient.db('my_mongo_db');
-    await db.collection('logs').deleteOne({ _id: new mongoClient.ObjectId(id) });
+    await db.collection('logs').deleteOne({ _id: new ObjectId(id) });
     res.redirect('/logs'); // Redirect back to the logs list
   } catch (err) {
     console.error('MongoDB delete error:', err);
