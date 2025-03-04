@@ -6,8 +6,8 @@
       <form action="/users/{{this.id}}/edit" method="get">
         <button type="submit">Edit</button>
       </form>
-      <form action="/users/{{this.id}}" method="post" style="display:inline;">
-        <button type="submit" name="_method" value="delete">Delete</button>
+      <form action="/users/{{id}}?_method=DELETE" method="POST">
+        <button type="submit">Delete</button>
       </form>
     </li>
   {{/each}}
