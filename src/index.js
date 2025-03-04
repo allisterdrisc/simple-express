@@ -4,7 +4,7 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const { Client } = require('pg');
 const path = require('path');
-const handlebars = require('express-handlebars');
+const { engine } = require('express-handlebars');
 
 const app = express();
 const port = 3000;
@@ -12,9 +12,9 @@ const port = 3000;
 app.use('/static', express.static('public/static'));
 
 // Set Handlebars as the view engine
-app.engine('handlebars', handlebars());
-app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '../views')); // adjust path to the views folder
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
 
 // Validate environment variables
 const { MONGO_URI, POSTGRES_URI } = process.env;
