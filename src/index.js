@@ -139,7 +139,7 @@ app.get('/logs', async (req, res) => {
   try {
     const db = mongoClient.db('my_mongo_db'); // Change to your actual DB name
     const logs = await db.collection('logs').find().toArray();
-    res.json(logs);
+    res.render('logs', { logs });
   } catch (err) {
     console.error('MongoDB query error:', err);
     res.status(500).json({ error: 'Database error' });
