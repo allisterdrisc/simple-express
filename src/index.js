@@ -3,11 +3,18 @@ require('dotenv').config(); // Load environment variables
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const { Client } = require('pg');
+const path = require('path');
+const handlebars = require('express-handlebars');
 
 const app = express();
 const port = 3000;
 
 app.use('/static', express.static('public/static'));
+
+// Set Handlebars as the view engine
+app.engine('handlebars', handlebars());
+app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, '../views')); // adjust path to the views folder
 
 // Validate environment variables
 const { MONGO_URI, POSTGRES_URI } = process.env;
@@ -47,7 +54,18 @@ async function connectMongo() {
 connectMongo();
 
 // Routes
-app.get('/', (req, res) => res.send('Homepage placeholder, will be dynamic'));
+app.get('/', (req, res) => {
+  const testData = {
+    title: 'Test Home',
+    list: [
+      {name: 'testing 123'},
+      {name: 'testing abc'}
+    ]
+  };
+
+  res.render('home', testData);
+});
+
 app.get('/app', (req, res) => res.send('This is testing for dynamic routes'));
 
 // PostgreSQL: Get all users
