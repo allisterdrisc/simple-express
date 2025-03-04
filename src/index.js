@@ -66,13 +66,12 @@ app.get('/', (req, res) => {
   res.render('home', testData);
 });
 
-app.get('/app', (req, res) => res.send('This is testing for dynamic routes'));
-
 // PostgreSQL: Get all users
 app.get('/users', async (req, res) => {
   try {
     const result = await pgClient.query('SELECT * FROM users');
-    res.json(result.rows);
+    const users = result.rows;
+    res.render('users', { users });
   } catch (err) {
     console.error('PostgreSQL query error:', err);
     res.status(500).json({ error: 'Database error' });
