@@ -3,7 +3,7 @@
   {{#each users}}
     <li>
       {{this.name}} - {{this.email}}
-      <form action="/users/{{this.id}}/edit" method="get">
+      <form action="/users/{{this.id}}/edit" method="GET">
         <button type="submit">Edit</button>
       </form>
       <form action="/users/{{this.id}}?_method=DELETE" method="POST">
