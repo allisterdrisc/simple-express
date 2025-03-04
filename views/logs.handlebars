@@ -1,0 +1,22 @@
+<h2>Logs</h2>
+<ul>
+  {{#each logs}}
+    <li>
+      {{this.log}} - {{this.timestamp}}
+      <form action="/logs/{{this._id}}" method="get">
+        <button type="submit">Edit</button>
+      </form>
+      <form action="/logs/{{this._id}}" method="post" style="display:inline;">
+        <button type="submit" name="_method" value="delete">Delete</button>
+      </form>
+    </li>
+  {{/each}}
+</ul>
+
+<h3>Add Log</h3>
+<form action="/logs" method="post">
+  <label for="logMessage">Log Message</label>
+  <input type="text" name="logMessage" required>
+  
+  <button type="submit">Add Log</button>
+</form>

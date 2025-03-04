@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Users</title>
-</head>
-<body>
-  <h3>All Users</h3>
-  <ul>
-    {{#each users}}
-      <li>{{this.name}} - {{this.email}}</li>
-    {{else}}
-      <li>No users found</li>
-    {{/each}}
-  </ul>
+<h2>Users</h2>
+<ul>
+  {{#each users}}
+    <li>
+      {{this.name}} - {{this.email}}
+      <form action="/users/{{this.id}}/edit" method="get">
+        <button type="submit">Edit</button>
+      </form>
+      <form action="/users/{{this.id}}" method="post" style="display:inline;">
+        <button type="submit" name="_method" value="delete">Delete</button>
+      </form>
+    </li>
+  {{/each}}
+</ul>
 
-  <h3>Related logs</h3>
-  <ul>
-    {{#each logs}}
-      <li>{{this.log_message}} ({{this.timestamp}})</li>
-    {{/each}}
-  </ul>
-</body>
-</html>
+<h3>Add User</h3>
+<form action="/users" method="post">
+  <label for="name">Name</label>
+  <input type="text" name="name" required>
+  
+  <label for="email">Email</label>
+  <input type="email" name="email" required>
+  
+  <button type="submit">Add User</button>
+</form>
