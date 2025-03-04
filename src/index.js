@@ -159,6 +159,23 @@ app.post('/logs', async (req, res) => {
   }
 });
 
+// Get log by id to edit
+app.get('/logs/:id/edit', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const db = mongoClient.db('my_mongo_db'); // Use your actual DB name
+    const log = await db.collection('logs').findOne({ _id: new mongoClient.ObjectId(id) });
+    if (!log) {
+      return res.status(404).send('Log not found');
+    }
+    res.render('editLog', { log }); // Render the edit form and pass the log data
+  } catch (err) {
+    console.error('MongoDB query error:', err);
+    res.status(500).send('Database error');
+  }
+});
+
+
 // MongoDB: Update an existing log
 app.put('/logs/:id', async (req, res) => {
   const { id } = req.params;
