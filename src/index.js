@@ -14,10 +14,11 @@ app.set('views', path.join(__dirname, '../views')); // adjust path to the views 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 
-// set up body parsing middleware to be able to use post etc
+// set up body parsing middleware to be able to use post, delete, put
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 // Validate environment variables
 const { MONGO_URI, POSTGRES_URI } = process.env;
