@@ -167,6 +167,9 @@ app.get('/logs/:id/edit', async (req, res) => {
 
   try {
     const db = mongoClient.db('my_mongo_db'); // Use your actual DB name
+    console.log('Deleting log with ID:', id);
+    console.log('ObjectId type:', typeof ObjectId);
+    console.log('New ObjectId:', new ObjectId(id));
     const log = await db.collection('logs').findOne({ _id: new ObjectId(id) });
     if (!log) {
       return res.status(404).send('Log not found');
