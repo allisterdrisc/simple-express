@@ -1,6 +1,5 @@
 <h2>Edit Log</h2>
 <form action="/logs/{{log._id}}?_method=PUT" method="POST">
-  <input type="hidden" name="_method" value="put">
   <label for="logMessage">Log Message</label>
   <input type="text" name="logMessage" value="{{log.log}}" required>
   <button type="submit">Update Log</button>
