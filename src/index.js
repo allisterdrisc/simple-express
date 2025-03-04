@@ -69,8 +69,8 @@ app.get('/users', async (req, res) => {
   try {
     const result = await pgClient.query('SELECT * FROM users');
     const users = result.rows;
-    
-    const db mongoClient.db('my_mongo_db');
+
+    const db = mongoClient.db('my_mongo_db');
     const logs = await db.collection('logs').find().toArray();
 
     res.render('users', { users, logs });
