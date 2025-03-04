@@ -3,7 +3,7 @@
   {{#each logs}}
     <li>
       {{this.log}} - {{this.timestamp}}
-      <form action="/logs/{{this._id}}" method="GET">
+      <form action="/logs/{{this._id}}/edit" method="GET">
         <button type="submit">Edit</button>
       </form>
       <form action="/logs/{{this._id}}?_method=DELETE" method="POST">

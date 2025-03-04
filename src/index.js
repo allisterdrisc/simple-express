@@ -166,7 +166,7 @@ app.get('/logs/:id/edit', async (req, res) => {
   console.log(`Editing log with ID: ${id}`); // Log for debugging
 
   try {
-    const db = mongoClient.db('my_mongo_db');  // Ensure db connection is correct
+    const db = mongoClient.db('my_mongo_db');
 
     // Convert the string ID to an ObjectId
     const objectId = new ObjectId(id);
