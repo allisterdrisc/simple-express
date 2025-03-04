@@ -166,11 +166,10 @@ app.get('/logs/:id/edit', async (req, res) => {
   console.log(`Editing log with ID: ${id}`); // log for troubleshooting
 
   try {
-    const db = mongoClient.db('my_mongo_db'); // Use your actual DB name
-    console.log('Deleting log with ID:', id);
-    console.log('ObjectId type:', typeof ObjectId);
-    console.log('New ObjectId:', new ObjectId(id));
+    const db = mongoClient.db('my_mongo_db');
+    // Convert the id to ObjectId properly
     const log = await db.collection('logs').findOne({ _id: new ObjectId(id) });
+
     if (!log) {
       return res.status(404).send('Log not found');
     }
@@ -184,13 +183,14 @@ app.get('/logs/:id/edit', async (req, res) => {
   }
 });
 
-
 // MongoDB: Update an existing log
 app.put('/logs/:id', async (req, res) => {
   const { id } = req.params;
-  const { logMessage } = req.body; // Assuming you are sending a 'logMessage'
+  const { logMessage } = req.body;
+
   try {
     const db = mongoClient.db('my_mongo_db');
+    // Update the log by ObjectId
     await db.collection('logs').updateOne(
       { _id: new ObjectId(id) },
       { $set: { log: logMessage, timestamp: new Date() } }
@@ -205,8 +205,10 @@ app.put('/logs/:id', async (req, res) => {
 // MongoDB: Delete a log
 app.delete('/logs/:id', async (req, res) => {
   const { id } = req.params;
+
   try {
     const db = mongoClient.db('my_mongo_db');
+    // Delete the log by ObjectId
     await db.collection('logs').deleteOne({ _id: new ObjectId(id) });
     res.redirect('/logs'); // Redirect back to the logs list
   } catch (err) {
