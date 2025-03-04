@@ -9,7 +9,7 @@ const { engine } = require('express-handlebars');
 const app = express();
 const port = 3000;
 
-app.use('/static', express.static('public/static'));
+//app.use('/static', express.static('public/static'));
 
 // Set Handlebars as the view engine
 app.set('views', path.join(__dirname, '../views')); // adjust path to the views folder
@@ -56,10 +56,10 @@ connectMongo();
 // Routes
 app.get('/', (req, res) => {
   const testData = {
-    title: 'Test Home',
+    title: 'Links',
     list: [
-      {name: 'testing 123'},
-      {name: 'testing abc'}
+      {name: 'Static asset'},
+      {name: 'Dynamic app that queries relational and non-relational databses'}
     ]
   };
 
