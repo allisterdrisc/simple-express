@@ -85,10 +85,10 @@ app.get('/users', async (req, res) => {
 
 // PostgreSQL: Add a new user
 app.post('/users', async (req, res) => {
-  const { name, email } = req.body; // Assuming these fields exist in your form
+  const { name, email } = req.body;
   try {
     await pgClient.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email]);
-    res.redirect('/users'); // Redirect back to the user list
+    res.redirect('/users');
   } catch (err) {
     console.error('PostgreSQL insert error:', err);
     res.status(500).json({ error: 'Database error' });
@@ -113,10 +113,10 @@ app.get('/users/:id/edit', async (req, res) => {
 // PostgreSQL: Update an existing user
 app.put('/users/:id', async (req, res) => {
   const { id } = req.params;
-  const { name, email } = req.body; // Assuming these fields are in your form
+  const { name, email } = req.body;
   try {
     await pgClient.query('UPDATE users SET name = $1, email = $2 WHERE id = $3', [name, email, id]);
-    res.redirect('/users'); // Redirect back to the user list
+    res.redirect('/users');
   } catch (err) {
     console.error('PostgreSQL update error:', err);
     res.status(500).json({ error: 'Database error' });
@@ -128,7 +128,7 @@ app.delete('/users/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await pgClient.query('DELETE FROM users WHERE id = $1', [id]);
-    res.redirect('/users'); // Redirect back to the user list
+    res.redirect('/users');
   } catch (err) {
     console.error('PostgreSQL delete error:', err);
     res.status(500).json({ error: 'Database error' });
@@ -149,11 +149,11 @@ app.get('/logs', async (req, res) => {
 
 // MongoDB: Add a new log
 app.post('/logs', async (req, res) => {
-  const { logMessage } = req.body; // Assuming you are sending a 'logMessage'
+  const { logMessage } = req.body;
   try {
     const db = mongoClient.db('my_mongo_db');
     await db.collection('logs').insertOne({ log: logMessage, timestamp: new Date() });
-    res.redirect('/logs'); // Redirect back to the logs list
+    res.redirect('/logs');
   } catch (err) {
     console.error('MongoDB insert error:', err);
     res.status(500).json({ error: 'Database error' });
@@ -167,19 +167,12 @@ app.get('/logs/:id/edit', async (req, res) => {
 
   try {
     const db = mongoClient.db('my_mongo_db');
-
-    // Convert the string ID to an ObjectId
     const objectId = new ObjectId(id);
-    console.log('Converted ID to ObjectId:', objectId); // Debug log to confirm ObjectId conversion
-
     const log = await db.collection('logs').findOne({ _id: objectId });
 
     if (!log) {
-      console.log(`Log not found with ID: ${id}`); // Debug log if no log is found
       return res.status(404).send('Log not found');
     }
-
-    console.log('Log found:', log); // Debug log to confirm log data
 
     res.render('editLog', { log });
   } catch (err) {
@@ -195,12 +188,11 @@ app.put('/logs/:id', async (req, res) => {
 
   try {
     const db = mongoClient.db('my_mongo_db');
-    // Update the log by ObjectId
     await db.collection('logs').updateOne(
       { _id: new ObjectId(id) },
       { $set: { log: logMessage, timestamp: new Date() } }
     );
-    res.redirect('/logs'); // Redirect back to the logs list
+    res.redirect('/logs');
   } catch (err) {
     console.error('MongoDB update error:', err);
     res.status(500).json({ error: 'Database error' });
@@ -213,7 +205,6 @@ app.delete('/logs/:id', async (req, res) => {
 
   try {
     const db = mongoClient.db('my_mongo_db');
-    // Delete the log by ObjectId
     await db.collection('logs').deleteOne({ _id: new ObjectId(id) });
     res.redirect('/logs'); // Redirect back to the logs list
   } catch (err) {
