@@ -7,7 +7,7 @@ const { Client } = require('pg');
 const app = express();
 const port = 3000;
 
-app.use(express.static('public'));
+app.use('/static', express.static('public/static'));
 
 // Validate environment variables
 const { MONGO_URI, POSTGRES_URI } = process.env;
