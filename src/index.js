@@ -94,6 +94,21 @@ app.post('/users', async (req, res) => {
   }
 });
 
+app.get('/users/:id/edit', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pgClient.query('SELECT * FROM users WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).send('User not found');
+    }
+    const user = result.rows[0];
+    res.render('editUser', { user });
+  } catch (err) {
+    console.error('PostgreSQL query error:', err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
 // PostgreSQL: Update an existing user
 app.put('/users/:id', async (req, res) => {
   const { id } = req.params;
