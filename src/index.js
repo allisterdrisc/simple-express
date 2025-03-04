@@ -9,8 +9,6 @@ const { engine } = require('express-handlebars');
 const app = express();
 const port = 3000;
 
-//app.use('/static', express.static('public/static'));
-
 // Set Handlebars as the view engine
 app.set('views', path.join(__dirname, '../views')); // adjust path to the views folder
 app.engine('handlebars', engine());
@@ -59,7 +57,7 @@ app.get('/', (req, res) => {
     title: 'Links',
     list: [
       {name: 'Static asset'},
-      {name: 'Dynamic app that queries relational and non-relational databses'}
+      {name: 'Interact with databases'}
     ]
   };
 
@@ -71,9 +69,13 @@ app.get('/users', async (req, res) => {
   try {
     const result = await pgClient.query('SELECT * FROM users');
     const users = result.rows;
-    res.render('users', { users });
+    
+    const db mongoClient.db('my_mongo_db');
+    const logs = await db.collection('logs').find().toArray();
+
+    res.render('users', { users, logs });
   } catch (err) {
-    console.error('PostgreSQL query error:', err);
+    console.error('Database error from either PostgreSQL or MongoDB:', err);
     res.status(500).json({ error: 'Database error' });
   }
 });

@@ -6,12 +6,19 @@
   <title>Users</title>
 </head>
 <body>
-  <h1>All Users</h1>
+  <h3>All Users</h3>
   <ul>
     {{#each users}}
       <li>{{this.name}} - {{this.email}}</li>
     {{else}}
       <li>No users found</li>
+    {{/each}}
+  </ul>
+
+  <h3>Related logs</h3>
+  <ul>
+    {{#each logs}}
+      <li>{{this.log_message}} ({{this.timestamp}})</li>
     {{/each}}
   </ul>
 </body>
