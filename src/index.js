@@ -138,7 +138,7 @@ app.delete('/users/:id', async (req, res) => {
 // MongoDB: Get all logs
 app.get('/logs', async (req, res) => {
   try {
-    const db = mongoClient.db('my_mongo_db'); // Change to your actual DB name
+    const db = mongoClient.db('my_mongo_db');
     const logs = await db.collection('logs').find().toArray();
     res.render('logs', { logs });
   } catch (err) {
@@ -163,20 +163,25 @@ app.post('/logs', async (req, res) => {
 // Get log by id to edit
 app.get('/logs/:id/edit', async (req, res) => {
   const { id } = req.params;
-  console.log(`Editing log with ID: ${id}`); // log for troubleshooting
+  console.log(`Editing log with ID: ${id}`); // Log for debugging
 
   try {
-    const db = mongoClient.db('my_mongo_db');
-    // Convert the id to ObjectId properly
-    const log = await db.collection('logs').findOne({ _id: new ObjectId(id) });
+    const db = mongoClient.db('my_mongo_db');  // Ensure db connection is correct
+
+    // Convert the string ID to an ObjectId
+    const objectId = new ObjectId(id);
+    console.log('Converted ID to ObjectId:', objectId); // Debug log to confirm ObjectId conversion
+
+    const log = await db.collection('logs').findOne({ _id: objectId });
 
     if (!log) {
+      console.log(`Log not found with ID: ${id}`); // Debug log if no log is found
       return res.status(404).send('Log not found');
     }
 
-    console.log('Log found:', log); // log for troubleshooting
+    console.log('Log found:', log); // Debug log to confirm log data
 
-    res.render('editLog', { log }); // Render the edit form and pass the log data
+    res.render('editLog', { log });
   } catch (err) {
     console.error('MongoDB query error:', err);
     res.status(500).send('Database error');
