@@ -47,6 +47,7 @@ async function connectMongo() {
 connectMongo();
 
 // Routes
+app.get('/', (req, res) => res.send('Homepage placeholder, will be dynamic'));
 app.get('/app', (req, res) => res.send('This is testing for dynamic routes'));
 
 // PostgreSQL: Get all users
